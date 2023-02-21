@@ -24,20 +24,27 @@ const quadraticEquationSolver = (a, b, c) => {
   }
 };
 
-
-const rlQuestion = () => {
-  rl.question('a = ', (a) => {
-    if (/^0x[a-fA-F0-9]+$/.test(a) || Number(a) === 0 || isNaN(Number(a))) {
-      console.log(`Error. Expected a valid real number, got ${a} instead`)
-      rlQuestion();
+const readNumber = (prompt, callback) => {
+  rl.question(prompt, (input) => {
+    const num = Number(input);
+    if (
+      /^0x[a-fA-F0-9]+$/.test(input) ||
+      isNaN(num) ||
+      (prompt.includes('a') && num === 0)
+    ) {
+      console.log(`Error. Expected a valid real number, got ${input} instead.`);
+      readNumber(prompt, callback);
+      return;
     }
-    rl.question('b = ', (b) => {
-      rl.question('c = ', (c) => {
-        quadraticEquationSolver(a, b, c);
-        rl.close();
-      });
-    });
+    callback(num);
   });
 };
 
-rlQuestion();
+readNumber('a = ', (a) => {
+  readNumber('b = ', (b) => {
+    readNumber('c = ', (c) => {
+      quadraticEquationSolver(a, b, c);
+      rl.close();
+    });
+  });
+});
