@@ -28,17 +28,18 @@ const quadraticEquationSolver = (a, b, c) => {
   }
 };
 
-const isValidNum = (input) => {
+const isValidNum = (input, prompt = '') => {
   return (
     /^0x[a-fA-F0-9]+$/.test(input) ||
-    isNaN(Number(input))
+    isNaN(Number(input)) ||
+    (prompt.includes('a') && Number(input) === 0)
   );
 };
 
 const readNumber = (prompt, callback) => {
   rl.question(prompt, (input) => {
     const num = Number(input);
-    if (isValidNum(input) && (prompt.includes('a = ') && num === 0)) {
+    if (isValidNum(input, prompt)) {
       console.log(`Error. Expected a valid real number, got ${input} instead.`);
       readNumber(prompt, callback);
       return;
