@@ -1,10 +1,6 @@
 'use strict';
 
 const readline = require('readline');
-const fs = require('fs');
-
-const COMMAND_LINE_FILE_NUMBER = 2;
-const fileName = process.argv[COMMAND_LINE_FILE_NUMBER];
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -28,18 +24,14 @@ const quadraticEquationSolver = (a, b, c) => {
   }
 };
 
-const isValidNum = (input, prompt = '') => {
-  return (
-    /^0x[a-fA-F0-9]+$/.test(input) ||
-    isNaN(Number(input)) ||
-    (prompt.includes('a') && Number(input) === 0)
-  );
-};
-
 const readNumber = (prompt, callback) => {
   rl.question(prompt, (input) => {
     const num = Number(input);
-    if (isValidNum(input, prompt)) {
+    if (
+      /^0x[a-fA-F0-9]+$/.test(input) ||
+      isNaN(num) ||
+      (prompt.includes('a') && num === 0)
+    ) {
       console.log(`Error. Expected a valid real number, got ${input} instead.`);
       readNumber(prompt, callback);
       return;
@@ -48,33 +40,11 @@ const readNumber = (prompt, callback) => {
   });
 };
 
-if (fileName) {
-  rl.close();
-  fs.readFile(fileName, 'utf8', (err, data) => {
-    if (err) {
-      console.log(`file ${fileName} does not exist`);
-      return;
-    }
-    const numbers = data.split(' ')
-    const [a, b, c] = numbers;
-
-    if (
-      (Number(a) === 0 || isValidNum(a)) ||
-      isValidNum(b) ||
-      isValidNum(c)
-    ) {
-      console.log('invalid file format');
-    } else {
+readNumber('a = ', (a) => {
+  readNumber('b = ', (b) => {
+    readNumber('c = ', (c) => {
       quadraticEquationSolver(a, b, c);
-    }
-  });
-} /*else {
-    readNumber('a = ', (a) => {
-      readNumber('b = ', (b) => {
-        readNumber('c = ', (c) => {
-          quadraticEquationSolver(a, b, c);
-          rl.close();
-        });
-      });
+      rl.close();
     });
-}*/
+  });
+});
