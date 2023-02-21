@@ -48,3 +48,8 @@ There are 2 roots
 x1 = -0.004386066162685628
 x2 = -189.99561393383732
 ```
+
+## Links on Revert Commits
+
+1. [Reverted commit with working validator function](https://github.com/danil2205/Git-Basics/commit/a78524cb85872154cc45ae1913f5c9aa595cca1b)
+2. [Reverted commit on stable version with interactive mode](https://github.com/danil2205/Git-Basics/commit/8a4662e2af13a7e26bd708ffb7e6f32ea2e8fd52)
