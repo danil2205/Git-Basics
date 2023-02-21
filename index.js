@@ -36,6 +36,9 @@ const isValidNum = (input, prompt = '') => {
   );
 };
 
+const isFileFormatValid = (data) =>
+  /^-?\d+(?:\.\d+)? -?\d+(?:\.\d+)? -?\d+(?:\.\d+)?(\r?\n|\n)$/g.test(data);
+
 const readNumber = (prompt, callback) => {
   rl.question(prompt, (input) => {
     const num = Number(input);
@@ -55,18 +58,14 @@ if (fileName) {
       console.log(`file ${fileName} does not exist`);
       return;
     }
-    const numbers = data.split(' ')
-    const [a, b, c] = numbers;
-
-    if (
-      (Number(a) === 0 || isValidNum(a)) ||
-      isValidNum(b) ||
-      isValidNum(c)
-    ) {
+    if (!isFileFormatValid(data)) {
       console.log('invalid file format');
-    } else {
-      quadraticEquationSolver(a, b, c);
+      return;
     }
+    const numbers = data.split(' ').map(parseFloat)
+    const [a, b, c] = numbers;
+    if (a === 0) return console.log('Error. a cannot be 0');
+    quadraticEquationSolver(a, b, c);
   });
 } else {
   readNumber('a = ', (a) => {
