@@ -12,7 +12,7 @@ const rl = readline.createInterface({
 });
 
 const quadraticEquationSolver = (a, b, c) => {
-  console.log(`Equation is: ${a} x^2 + ${b} x + ${c} = 0`)
+  console.log(`Equation is: ${a} x^2 + (${b}) x + (${c}) = 0`)
   const discriminant = b**2 - 4*a*c;
   if (discriminant < 0) return console.log('There are 0 roots');
   if (discriminant === 0) {
